@@ -51,9 +51,10 @@ class Wallhaver:
         return data
 
     def _get(self, url: str, params: dict):
-        headers = {
-            "X-API-KEY": self.env["API_KEY"]
-        }
+        headers = {}
+
+        if "API_KEY" in self.env.keys():
+            headers["X-API-KEY"] = self.env["API_KEY"]
 
         return httpget(url, headers=headers, params=params)
 
