@@ -53,7 +53,7 @@ If you have a wide screen and you prefer ducks, instead you can do:
 wallhaver.py --ratio 16x10 --min-size 1920x1200 --sorting favorites duck
 ```
 
-Because an image is downloaded each time the script is called, be careful of the size of your `WALLPAPERS_DIRECTORY`.
+If the wallpaper has already been downloaded in your `WALLPAPERS_DIRECTORY`, the script won't download it again.
 
 ## Automation
 

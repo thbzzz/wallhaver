@@ -3,8 +3,8 @@
 from argparse import ArgumentParser
 from json import loads
 from os import W_OK, X_OK, access
-from os.path import basename, expanduser, isdir, join
-from random import randint
+from os.path import basename, isdir, isfile, join
+from random import choice
 from subprocess import run
 from urllib.parse import urlparse
 
@@ -127,11 +127,17 @@ if __name__ == "__main__":
 
     # If wallpapers are found, just choose a random one in the list
     # A full page contains 64 wallpapers
-    per_page = int(data["meta"]["per_page"])
-    wp = data["data"][randint(1, per_page-1)]
+    wp = choice(data["data"])
 
     wp_url = wp["path"]
     wp_file = join(wallhaver.dir, basename(urlparse(wp_url).path).removeprefix("wallhaven-"))
 
-    if wallhaver.download(wp_url, wp_file):
+    # The wallpaper may have already been downloaded
+    if not isfile(wp_file):
+        wallhaver.download(wp_url, wp_file)
+    else:
+        if args["just_dl"]:
+            print(f"{wp_file} has already been downloaded")
+
+    if not args["just_dl"]:
         wallhaver.set_background(wp_file)
